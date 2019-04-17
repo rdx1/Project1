@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class OpenPageComponent implements OnInit {
 
-  constructor(private authservice:AuthserviceService,private userdata:GetuserService,private elementRef: ElementRef,private router:Router) { }
+  constructor(public authservice:AuthserviceService,private userdata:GetuserService,private elementRef: ElementRef,private router:Router) { }
   adminstatus;
   public name;
 

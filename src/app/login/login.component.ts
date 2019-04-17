@@ -7,12 +7,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public users={};
+  public users={
+    "email" : "",
+    "password":""
+  };
   logindata={};
   errorbutton=0;
 
 
-  constructor(private authservice:AuthserviceService,private router:Router) { }
+  constructor(public authservice:AuthserviceService,private router:Router) { }
 
   ngOnInit() {
   }

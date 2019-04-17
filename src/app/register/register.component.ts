@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerUserData: any = {}
-  constructor(private authservice: AuthserviceService, private toastr: ToastrService, private router: Router) { }
+  constructor(public authservice: AuthserviceService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit() {
   }

@@ -8,12 +8,15 @@ import { AuthserviceService } from '../authservice.service';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  chartdata={}
+  chartdata={
+    "customer":"",
+    "year":""
+  }
   chartitems:any=[]
   showchart:boolean=false
   tabledetails:any[]=[]  
 
-  constructor(private chartservice:ChartserviceService,private authservice:AuthserviceService) { }
+  constructor(public chartservice:ChartserviceService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }

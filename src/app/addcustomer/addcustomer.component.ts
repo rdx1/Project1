@@ -16,13 +16,19 @@ export class AddcustomerComponent implements OnInit {
   showstatus:boolean=false;
   public customerdetails={
     "customerid":this.uuid,
-    "status":0
+    "status":0,
+    "phonenumber":"",
+    "customername":"",
+    "email":"",
+    "industry":"",
+    "address":""
+
     
   }
   industries = ['Hi-Tech', 'Automotive', 'Public Sector'];
 
 
-  constructor(private customer:CustomerService,private toastr:ToastrService,private router:Router,private authservice:AuthserviceService) { }
+  constructor(private customer:CustomerService,private toastr:ToastrService,private router:Router,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }

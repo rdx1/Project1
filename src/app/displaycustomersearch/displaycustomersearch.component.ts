@@ -13,7 +13,7 @@ import { AuthserviceService } from '../authservice.service';
 export class DisplaycustomersearchComponent implements OnInit {
   searchdetails:any={}
   industries = ['Hi-Tech', 'Automotive', 'Public Sector'];
-  constructor(private search:SearchdetailsService,private toastr:ToastrService,private customer:CustomerService,private router:Router,private authservice:AuthserviceService) { }
+  constructor(private search:SearchdetailsService,private toastr:ToastrService,private customer:CustomerService,private router:Router,public authservice:AuthserviceService) { }
 
   ngOnInit() {
     this.currentuser()

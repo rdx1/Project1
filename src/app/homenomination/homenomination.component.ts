@@ -27,7 +27,8 @@ export class HomenominationComponent implements OnInit {
   public cancelbutton = [0]
   subscription: any;
   public name;
-  constructor(private usernomlist: NominationlistService, private authservice: AuthserviceService, private nom: NomineedetailsService, private router: Router, private dboperations: DboperationsService, private userdata: GetuserService,private toastr:ToastrService) { }
+  p: number = 1;
+  constructor(private usernomlist: NominationlistService, public authservice: AuthserviceService, private nom: NomineedetailsService, private router: Router, private dboperations: DboperationsService, private userdata: GetuserService,private toastr:ToastrService) { }
 
   ngOnInit() {
     this.subscription = this.usernomlist.userNomineeList()

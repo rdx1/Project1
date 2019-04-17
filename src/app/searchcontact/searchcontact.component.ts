@@ -11,11 +11,13 @@ import { AuthserviceService } from '../authservice.service';
   styleUrls: ['./searchcontact.component.css']
 })
 export class SearchcontactComponent implements OnInit {
-  searchterm = {}
+  searchterm = {
+    "searchtext":""
+  }
   searchdetails: any = []
   buttonvalue = [0]
   public searchlength: number
-  constructor(private search: SearchserviceService, private getsearch: SearchdetailsService, private router: Router,private dboperations:DboperationsService,private authservice:AuthserviceService) { }
+  constructor(private search: SearchserviceService, private getsearch: SearchdetailsService, private router: Router,private dboperations:DboperationsService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }

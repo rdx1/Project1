@@ -70,7 +70,7 @@ export class CustomersuccessComponent implements OnInit {
   uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/api/uploads' });
 
 
-  constructor(private custsuccess: CustomersuccessService, private fileService: FileService, private toastr: ToastrService, private router: Router, private customer: CustomerService,private authservice:AuthserviceService) { }
+  constructor(private custsuccess: CustomersuccessService, private fileService: FileService, private toastr: ToastrService, private router: Router, private customer: CustomerService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };

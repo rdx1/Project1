@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,TemplateRef } from '@angular/core';
 import { SearchdetailsService } from '../searchdetails.service';
 import { Router } from '@angular/router';
 import { DboperationsService } from '../dboperations.service';
@@ -71,9 +71,9 @@ public contactshow: boolean = false;
     "customername": "",
     "contactname": ""
   }
-  uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/api/uploads' });
+  uploader: FileUploader = new FileUploader({ url: '/api/uploads' });
 
-  constructor(private search:SearchdetailsService,private router:Router,private dboperations:DboperationsService,private toastr:ToastrService,private customer: CustomerService,private fileService: FileService,private tierservice:TierserviceService,private modalService: BsModalService,private authservice:AuthserviceService) { }
+  constructor(private search:SearchdetailsService,private router:Router,private dboperations:DboperationsService,private toastr:ToastrService,private customer: CustomerService,private fileService: FileService,private tierservice:TierserviceService,private modalService: BsModalService,public authservice:AuthserviceService) { }
 
   ngOnInit() 
   {  
@@ -321,6 +321,30 @@ public contactshow: boolean = false;
         res => console.log(res),
         err => console.log(err)
       )
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  addmodal(template: TemplateRef<any>) {
+    switch (this.searchdetails.tier1) {
+      case "addnew": {
+        this.openModal(template)
+      }
+    }
+  }
+  addmodal2(template: TemplateRef<any>) {
+    switch (this.searchdetails.tier2) {
+      case "addnew": {
+        this.openModal(template)
+      }
+    }
+  }
+  addmodal3(template: TemplateRef<any>) {
+    switch (this.searchdetails.tier3) {
+      case "addnew": {
+        this.openModal(template)
+      }
+    }
   }
     
 

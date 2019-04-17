@@ -19,7 +19,7 @@ export class DisplaycontactsearchComponent implements OnInit {
   modalRef: BsModalRef;
   jobfunctions = [];
 
-  constructor(private search: SearchdetailsService, private toastr: ToastrService, private customer: CustomerService, private router: Router,private modalService: BsModalService, private jobfunc: JobfunctionsService,private authservice:AuthserviceService) { }
+  constructor(private search: SearchdetailsService, private toastr: ToastrService, private customer: CustomerService, private router: Router,private modalService: BsModalService, private jobfunc: JobfunctionsService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
     this.currentuser()

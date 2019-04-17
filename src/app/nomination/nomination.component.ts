@@ -127,9 +127,9 @@ export class NominationComponent implements OnInit {
   }
 
   //file upload
-  uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/api/uploads' });
+  uploader: FileUploader = new FileUploader({ url: 'api/uploads' });
 
-  constructor(private referal: ReferalService, private loginuser: LoginuserService, private authservice: AuthserviceService, private fileService: FileService, private router: Router, private dboperations: DboperationsService, private customer: CustomerService, private toastr: ToastrService, private modalService: BsModalService, private tierservice: TierserviceService,private userdata:GetuserService) {
+  constructor(private referal: ReferalService, private loginuser: LoginuserService, public authservice: AuthserviceService, private fileService: FileService, private router: Router, private dboperations: DboperationsService, private customer: CustomerService, private toastr: ToastrService, private modalService: BsModalService, private tierservice: TierserviceService,private userdata:GetuserService) {
   }
   ngOnInit() {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };

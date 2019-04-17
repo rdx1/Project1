@@ -56,10 +56,10 @@ export class DisplaycustomersuccesssearchComponent implements OnInit {
   public showcontact: number = 1
   public shownom: number = 1;
 
-  uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/api/uploads' });
+  uploader: FileUploader = new FileUploader({ url: 'api/uploads' });
 
 
-  constructor(private search: SearchdetailsService, private toastr: ToastrService, private custsuccess: CustomersuccessService, private router: Router, private fileService: FileService, private customer: CustomerService,private authservice:AuthserviceService) { }
+  constructor(private search: SearchdetailsService, private toastr: ToastrService, private custsuccess: CustomersuccessService, private router: Router, private fileService: FileService, private customer: CustomerService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };

@@ -12,16 +12,18 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class SuccesssearchComponent implements OnInit {
 
-  searchterm = {}
+  searchterm = {
+    "searchtext":""
+  }
   searchdetails: any = []
   public searchlength: number
   buttonvalue = [0]
 
-  constructor(private search: SearchserviceService, private getsearch: SearchdetailsService, private router: Router, private dboperations: DboperationsService,private authservice:AuthserviceService) { }
+  constructor(private search: SearchserviceService, private getsearch: SearchdetailsService, private router: Router, private dboperations: DboperationsService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }
-  searchitem(searchterm) {
+  searchitem() {
     this.search.getcutsomersuccess(this.searchterm)
       .subscribe(
         res => {

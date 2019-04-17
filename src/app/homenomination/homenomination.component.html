@@ -37,7 +37,7 @@
 <div class="container mt-5">
   <div class="col-md-12" *ngIf="nomineelength>0">
     <div class="breadcrumb" id="v-pills-tab" role="tablist" aria-orientation="vertical"
-      *ngFor="let nominee of nominees| paginate:{ itemsPerPage: 10, currentPage: p};index as i">
+      *ngFor="let nominee of nominees| paginate:{ itemsPerPage:10,currentPage:p};index as i">
       <button class="btn btn-primary-outline " (click)="nomineedetails(nominee,i)" role="tab"
         aria-controls="v-pills-home" aria-selected="true"
         style="word-spacing: 600px; border: none; outline: none !important; box-shadow: none; ">
@@ -58,7 +58,7 @@
     <h4 >No Nominations</h4>
   </div>
   </div>
-  <div class="contaciner">
+  <div class="container">
   <pagination-controls class="text-center center-block" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

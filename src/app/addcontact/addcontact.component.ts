@@ -18,14 +18,17 @@ export class AddcontactComponent implements OnInit {
   showstatus: boolean = false;
   contactdetails = {
     "contactid": this.uuid,
+    "contactname":"",
+    "contactaddress":"",
     "jobfunction": "",
     "status": 0,
-    "contatcphonenumber":""
+    "contactphonenumber":"",
+    "customerrelationship":""
   }
   newjobfunction = {};
   modalRef: BsModalRef;
   jobfunctions = [];
-  constructor(private customer: CustomerService, private modalService: BsModalService, private jobfunc: JobfunctionsService, private toastr: ToastrService, private router: Router,private authservice:AuthserviceService) { }
+  constructor(private customer: CustomerService, private modalService: BsModalService, private jobfunc: JobfunctionsService, private toastr: ToastrService, private router: Router,public authservice:AuthserviceService) { }
 
   ngOnInit() {
     this.getjobfunctions()

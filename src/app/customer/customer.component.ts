@@ -8,7 +8,7 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class CustomerComponent implements OnInit,AfterViewInit {
 
-  constructor(private elementRef: ElementRef,private authservice:AuthserviceService) { }
+  constructor(private elementRef: ElementRef,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }

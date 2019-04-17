@@ -8,7 +8,7 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class MeasurementComponent implements OnInit {
 
-  constructor(private authservice:AuthserviceService) { }
+  constructor(public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }

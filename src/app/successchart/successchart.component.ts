@@ -9,12 +9,15 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class SuccesschartComponent implements OnInit {
 
-  chartdata = {}
+  chartdata = {
+    "customer":"",
+    "year":""
+  }
   chartitems = []
   showchart: boolean = false;
   tabledetails: [] = []
 
-  constructor(private chartservice: ChartserviceService,private authservice:AuthserviceService) { }
+  constructor(private chartservice: ChartserviceService,public authservice:AuthserviceService) { }
 
   ngOnInit() {
   }
