@@ -1,0 +1,573 @@
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"><img
+        src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+        height="32" /></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h3 class="pt-3">New Nomination</h3>
+        <ng-container *ngIf="referalmodel.status===1">
+          <span class="badge badge-success">Submitted</span>
+        </ng-container>
+        <span class="badge badge-danger" *ngIf="referalmodel.status===0">Draft</span>
+      </div>
+      <div class="col-6 pt-3" *ngIf="showfirstbutton">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-success btn-small" (click)="onSubmit()">Save</button>
+          <button type="button" class="btn btn-danger btn-small" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+      <div class="col-6 pt-3" *ngIf="showsecondbutton">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-primary btn-small" (click)="onUpdate()">Update</button>
+          <button type="button" class="btn btn-success btn-small" (click)="changeStatus()">Submit</button>
+          <button type="button" class="btn btn-danger btn-small" (click)="onDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <form #userForm="ngForm">
+    <div class="container">
+      <h5>Customer Details</h5>
+    </div>
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-6">
+          <h6>Customer ID</h6>
+        </div>
+        <div class="col-6">
+          <h6>Phone Number</h6>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <input class="form-control" type="text" name="customerid" placeholder="Customer ID"
+            [(ngModel)]="referalmodel.customerid" readonly>
+        </div>
+        <div class="col-6">
+          <input class="form-control" #phonenumber="ngModel"
+            [class.is-invalid]="phonenumber.invalid && phonenumber.touched" type="tel" placeholder="Phone Number"
+            name="phonenumber" [(ngModel)]="referalmodel.phonenumber" required readonly>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-6">
+          <h6>Customer Name</h6>
+        </div>
+        <div class="col-6">
+          <h6>Address</h6>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="input-group">
+            <input class="form-control" autocomplete="new-password" #name="ngModel"
+              [class.is-invalid]="name.invalid && name.touched" type="text" placeholder="Customer Name"
+              name="customername" [(ngModel)]="referalmodel.customername" [typeahead]="customers"
+              typeaheadOptionField="customername" (typeaheadOnSelect)="addcustomerdetails($event)" required
+              [disabled]="showauto===1">
+            <div class="input-group-append">
+              <button class="input-group-text" id="basic-addon2" (click)="removecustomer()"
+                style="border:none; outline: none!important;">Remove</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <textarea class="form-control" placeholder="Address" rows="5" name="address" [(ngModel)]=referalmodel.address
+            readonly></textarea>
+          <div class="col-6" *ngIf="notshown">
+            <input class="form-control" type="text" name="loginid" [(ngModel)]="referalmodel.loginid">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-6">
+          <h6>Email</h6>
+        </div>
+        <div class="col-6">
+          <h6>Industry</h6>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <input class="form-control" type="email" placeholder="E-mail" name="email" [(ngModel)]="referalmodel.email"
+            readonly>
+        </div>
+        <div class="col-6">
+          <input class="form-control" type="text" placeholder="Industry" name="industry"
+            [(ngModel)]="referalmodel.industry" readonly>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="pt-3">Contact Details</h5>
+        </div>
+        <div class="col-6 pt-3">
+          <button (click)="contactToggle()" type="button" class="btn-primary-outline pull-right"
+            style="background-color: transparent; border: none; outline: none;"><i
+              class={{contactbuttonvalue}}></i></button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="contactshow">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Contact ID</h6>
+          </div>
+          <div class="col-6">
+            <h6>Contact Phone Number</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" type="text" placeholder="Contact ID" name="contactid"
+              value="{{referalmodel.contactid}}" readonly>
+          </div>
+          <div class="col-6">
+            <input class="form-control" placeholder="Phone Number" name="contactphonenumber"
+              [(ngModel)]="referalmodel.contactphonenumber" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Contact Name</h6>
+          </div>
+          <div class="col-6">
+            <h6>Contact Address</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group">
+              <input class="form-control" type="text" autocomplete="new-password" placeholder="Contact Name"
+                name="contactname" [(ngModel)]="referalmodel.contactname" [typeahead]="contacts"
+                typeaheadOptionField="contactname" (typeaheadOnSelect)="addcontactdetails($event)" required
+                [disabled]="showcontact===1">
+              <div class="input-group-append">
+                <button class="input-group-text" id="basic-addon2" (click)="removecontact()"
+                  style="border:none; outline: none!important;">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <textarea class="form-control" placeholder="Address" rows="5" name="contactaddress"
+              [(ngModel)]="referalmodel.contactaddress" readonly></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Job Function</h6>
+          </div>
+          <div class="col-6">
+            <h6>Relationship To Customer</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" name="jobfunction" [(ngModel)]="referalmodel.jobfunction" readonly>
+          </div>
+          <div class="col-6">
+            <input class="form-control" name="customerrelationship" [(ngModel)]="referalmodel.customerrelationship"
+              readonly>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="pt-3">Qualify</h5>
+        </div>
+        <div class="col-6 pt-3 ">
+          <button (click)="qualifyToggle()" type="button" class="btn-primary-outline pull-right"
+            style="background-color: transparent; border: none; outline: none;"><i
+              class={{qualifybuttonvalue}}></i></button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="qualifyshow">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>ID</h6>
+          </div>
+          <div class="col-md-6">
+            <h6>Tier-1</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" type="text" name="qualifyid" ngModel readonly>
+          </div>
+          <div class="col-6">
+            <select class="form-control" name="tier1" (click)="addmodal(template)" [(ngModel)]="referalmodel.tier1">
+              <!-- Modal -->
+              <ng-template #template>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Add Tier-1</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Tier-1:</label>
+                      <input type="text" class="form-control" name="tier1" [(ngModel)]="newtier1.tier1">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="addtier1();modalRef.hide()">Add</button>
+                </div>
+              </ng-template>
+              <option *ngFor="let tier of tier1" value="{{tier.tier1}}">{{tier.tier1}}</option>
+              <option value="addnew"> Add Tier-1</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Tier-2</h6>
+          </div>
+          <div class="col-6">
+            <h6>Tier-3</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <select class="form-control" name="tier2" (click)="addmodal2(template2)" [(ngModel)]="referalmodel.tier2">
+              <!-- Modal -->
+              <ng-template #template2>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Add Tier-2</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Tier-2:</label>
+                      <input type="text" class="form-control" name="tier2" [(ngModel)]="newtier2.tier2">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="addtier2();modalRef.hide()">Add</button>
+                </div>
+              </ng-template>
+              <option *ngFor="let tier of tier2" value="{{tier.tier2}}">{{tier.tier2}}</option>
+              <option value="addnew"> Add Tier-2</option>
+
+            </select>
+          </div>
+          <div class="col-6">
+            <select class="form-control" name="tier3" (click)="addmodal3(template3)" [(ngModel)]="referalmodel.tier3">
+              <!-- Modal -->
+              <ng-template #template3>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Add Tier-3</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Tier-3:</label>
+                      <input type="text" class="form-control" name="tier3" [(ngModel)]="newtier3.tier3">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="addtier3();modalRef.hide()">Add</button>
+                </div>
+              </ng-template>
+              <option *ngFor="let tier of tier3" value="{{tier.tier3}}">{{tier.tier3}}</option>
+              <option value="addnew"> Add Tier-3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="pt-3">Transaction Details</h5>
+        </div>
+        <div class="col-md-6 pt-3 ">
+          <button (click)="transactiondetailsToggle()" type="button" class="btn-primary-outline pull-right"
+            style="background-color: transparent; border: none; outline: none;"><i
+              class={{transactionbuttonvalue}}></i></button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="transactionshow">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6> Nomination ID</h6>
+          </div>
+          <div class="col-6">
+            <h6>Created By</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" type="text" placeholder="Nomination ID" name="transactionid"
+              value="{{referalmodel.transactionid}}" readonly>
+          </div>
+          <div class="col-6">
+            <input class="form-control" type="text" placeholder="Created By" name="createdby" value="{{referalmodel.createdby}}" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Created On</h6>
+          </div>
+          <div class="col-6">
+            <h6>Description</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Day" name="day" [(ngModel)]="referalmodel.day"
+             readonly >
+          </div>
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Month" name="month" [(ngModel)]="referalmodel.month"
+              readonly>
+          </div>
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="referalmodel.year"
+             readonly >
+          </div>
+          <div class="col-6">
+            <textarea class="form-control" placeholder="Description" rows="5" name="description"
+              [(ngModel)]="description"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3" *ngIf="showstatus">
+        <div class="row">
+          <div class="col-6">
+            <h6>Status</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container" *ngIf="showstatus">
+        <div class="row">
+          <div class="col-6">
+            <input readonly class="form-control" type="text" name="status" value="{{referalmodel.status}}">
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="pt-3">Develop Details</h5>
+        </div>
+        <div class="col-md-6 pt-3 ">
+          <button (click)="developToggle()" type="button" class="btn-primary-outline pull-right"
+            style="background-color: transparent; border: none; outline: none;"><i
+              class={{developbuttonvalue}}></i></button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="developshow">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Customer Contact</h6>
+          </div>
+          <div class="col-6">
+            <h6>Job Function</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" type="text" placeholder="Customer Contact" name="customername"
+              [(ngModel)]="referalmodel.customername" readonly>
+          </div>
+          <div class="col-6">
+            <input class="form-control" placeholder="Job Function" name="jobfunction"
+              [(ngModel)]="referalmodel.jobfunction" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Created On</h6>
+          </div>
+          <div class="col-6">
+            <h6>Description</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Day" name="day" [(ngModel)]="referalmodel.day"
+             readonly >
+          </div>
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Month" name="month" [(ngModel)]="referalmodel.month"
+             readonly >
+          </div>
+          <div class="col-2">
+            <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="referalmodel.year"
+             readonly >
+          </div>
+          <div class="col-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck1" name="custcall"
+                [(ngModel)]="referalmodel.custcall">
+              <label class="form-check-label" for="gridCheck1">Can Customer Call?
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck1" name="custmarket"
+                [(ngModel)]="referalmodel.custmarket">
+              <label class="form-check-label" for="gridCheck1">Can the Customer Participate in public Marketing Forum?
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck1" name="customerdigital"
+                [(ngModel)]="referalmodel.customerdigital">
+              <label class="form-check-label" for="gridCheck1">Can the Customer participate in Digital Marketing
+                (Videos)?
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="pt-3">Create Assets</h5>
+        </div>
+        <div class="col-md-6 pt-3 ">
+          <button (click)="createassetsToggle()" type="button" class="btn-primary-outline pull-right"
+            style="background-color: transparent; border: none; outline: none;"><i
+              class={{createassetsbuttonvalue}}></i></button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="createassetsshow">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Add Files</h6>
+          </div>
+          <div class="col-6">
+            <h6>Notes</h6>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="custom-file">
+              <input type="file" id="validatedCustomFile" name="fileupload" multiple ng2FileSelect
+                [uploader]="uploader">
+            </div>
+            <div class="row uploadList mt-3" *ngFor="let item of uploader.queue">
+              <div class="col-4">{{item.file.name}}</div>
+              <div class="col-4">
+                <div class="progress">
+                  <div class="progress-bar bg-success" [ngStyle]="{'width':item.progress+'%'}"></div>
+                </div>
+              </div>
+              <div class="col-4" *ngIf="afterdownloads==0">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                  <button type="button" class="btn  btn-primary" (click)="item.upload()">Upload</button>
+                  <button type="button" class="btn btn-danger" (click)="item.remove()">Remove</button>
+                </div>
+              </div>
+              <div class="col-4" *ngIf="afterdownloads==1">
+                <button type="button" class="btn btn-danger" (click)="item.remove()">Delete</button>
+              </div>
+              <div class="col-4" *ngIf="showdownloads">
+                <input class="form-control" type="text" placeholder="CustomerID" name="filepath"
+                  [(ngModel)]="referalmodel.nomineezip">
+              </div>
+            </div>
+            <div class="row mt-5" *ngFor="let item of attachmentList; let i = index">
+              <div class="col-7">{{item.originalname}}</div>
+              <div class="col-5 pl-5"><button type="button" class="btn btn-sm btn-primary"
+                  (click)="download(i)">Download</button></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <textarea class="form-control" placeholder="Notes" rows="8" name="notes"
+              [(ngModel)]="referalmodel.notes"></textarea>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <hr>
+  </form>

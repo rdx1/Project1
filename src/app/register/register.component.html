@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"><img
+            src="../../assets/128px-SAP-Logo.svg.png"
+            width="62.5px" height="32" /></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="[ '/home' ]" style="cursor: pointer;">Home <span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()"
+                style="cursor: pointer;">Logout</a>
+        </ul>
+    </div>
+</nav>
+<div class="py-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <span class="anchor" id="formLogin"></span>
+            <div class="card rounded-0">
+                <div class="card-header">
+                    <h3 class="mb-0">Register</h3>
+                </div>
+                <div class="card-body">
+                    <form class="form">
+                        <div class="form-group">
+                            <label for="uname1">First Name</label>
+                            <input type="text" [(ngModel)]="registerUserData.firstname" name="firstname" placeholder="First Name"
+                                class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="uname1">Last Name</label>
+                            <input type="text" [(ngModel)]="registerUserData.lastname" name="lastname" class="form-control"
+                               placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="uname1">E-Mail</label>
+                            <input type="text" [(ngModel)]="registerUserData.email" name="email" class="form-control" placeholder="E-Mail"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" [(ngModel)]="registerUserData.password" name="password" placeholder="Password"
+                                class="form-control" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="defaultCheck1" name="adminstatus"
+                                [(ngModel)]="registerUserData.adminstatus">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Admin Status
+                            </label>
+                        </div>
+                        <button type="button" (click)="registerUser()"
+                            class="btn btn-primary float-right">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

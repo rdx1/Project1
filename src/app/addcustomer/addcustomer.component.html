@@ -1,0 +1,111 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><img
+      src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+      height="32" /></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link"  [routerLink]="[ '/home' ]" style="cursor: pointer;">Home </a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h3 class="pt-3"> New Customer</h3>
+    </div>
+    <div class="col-6 pt-3" >
+      <div class="btn-group pull-right"*ngIf="customerdetails.status===0" > 
+        <button type="button" class="btn btn-success btn-small" (click)="postdetails()">Save</button>
+        <button type="button" class="btn btn-danger btn-small" (click)="onCancel()">Cancel</button>
+      </div>
+        <div class="btn-group pull-right"*ngIf="customerdetails.status===1">
+          <button type="button" class="btn btn-primary btn-small" (click)="editcustomer()">Edit</button>
+          <button type="button" class="btn btn-danger btn-small" (click)="deletecustomer()">Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
+<form #userForm="ngForm">
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Customer ID</h6>
+      </div>
+      <div class="col-6">
+        <h6>Phone Number</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input readonly class="form-control" name="customerid" value="{{customerdetails.customerid}}">
+      </div>
+      <div class="col-6">
+        <input class="form-control" #phonenumber="ngModel"
+          [class.is-invalid]="phonenumber.invalid && phonenumber.touched" type="tel" placeholder="Phone Number"
+          name="phonenumber" [(ngModel)]="customerdetails.phonenumber" required>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Customer Name</h6>
+      </div>
+      <div class="col-6">
+        <h6>Address</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" type="text"
+          placeholder="Customer Name" name="customername" [(ngModel)]="customerdetails.customername" required>
+      </div>
+      <div class="col-6">
+        <textarea class="form-control" placeholder="Address" rows="5" name="address" type="text"
+          [(ngModel)]="customerdetails.address"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Email</h6>
+      </div>
+      <div class="col-6">
+        <h6>Industry</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" type="text" placeholder="E-mail" name="email" [(ngModel)]="customerdetails.email">
+      </div>
+      <div class="col-6">
+        <select class="form-control" name="industry" [(ngModel)]="customerdetails.industry">
+          <option selected>Industry</option>
+          <option *ngFor="let industry of industries" value="{{industry}}">{{industry}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="showstatus">
+        <div class="row">
+          <div class="col-6">
+            <input readonly class="form-control" type="text" name="status" value="{{customerdetails.status}}">
+          </div>
+        </div>
+      </div>
+</form>
+<hr>

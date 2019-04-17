@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><img
+      src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+      height="32" /></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+    </ul>
+  </div>
+</nav>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Customer</h6>
+    </div>
+    <div class="col-6">
+      <h6>Year</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control" type="text" placeholder="Customer" name="customer" [(ngModel)]="chartdata.customer">
+    </div>
+    <div class="col-3">
+      <input class="form-control" placeholder="Year" name="year" [(ngModel)]="chartdata.year">
+    </div>
+    <div class="col-3">
+      <button class="btn btn-primary" (click)="getcharts()">Get Reports</button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="showchart">
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <p>Click on the Chart to Generate Report</p>
+        <div style="display: block;">
+          <canvas baseChart width="400"  height="200" [datasets]="lineChartData" [labels]="lineChartLabels"
+            [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+            [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)" (click)="oncall()"></canvas>
+        </div>
+      </div>
+    </div>
+    <!----<button (click)="oncall()"></button>-->
+  </div>
+  <div class="container mt-5">
+  <table class="table mt-5">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Customer ID</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Contact Name</th>
+        <th scope="col">Transaction ID</th>
+        <th scope="col">Month</th>
+        <th scope="col">Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tabledetail of tabledetails">
+        <th scope="row">{{tabledetail.customerid}}</th>
+        <td>{{tabledetail.customername}}</td>
+        <td>{{tabledetail.contactname}}</td>
+        <td>{{tabledetail.transactionid}}</td>
+        <td>{{tabledetail.month}}</td>
+        <td>{{tabledetail.year}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</ng-container>

@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><img
+      src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+      height="32" /></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+    </ul>
+  </div>
+
+
+</nav>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-4">
+      <h4>Nominations</h4>
+    </div>
+    <div class="col-8">
+      <button class="btn btn-primary btn-sm float-right" type="button" [routerLink]="['./newnomination']">New</button>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-10">
+      <h4>{{name}}'s &nbsp;Nominations</h4>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="col-md-12" *ngIf="nomineelength>0">
+    <div class="breadcrumb" id="v-pills-tab" role="tablist" aria-orientation="vertical"
+      *ngFor="let nominee of nominees| paginate:{ itemsPerPage: 10, currentPage: p};index as i">
+      <button class="btn btn-primary-outline " (click)="nomineedetails(nominee,i)" role="tab"
+        aria-controls="v-pills-home" aria-selected="true"
+        style="word-spacing: 600px; border: none; outline: none !important; box-shadow: none; ">
+        {{nominee.transactionid}} {{nominee.customername}}
+        <span class="badge  badge-success" *ngIf="nominee.status">Submitted</span>
+        <span class="badge badge-danger" *ngIf="!nominee.status">Draft</span>
+        <div class="mt-2">
+          <ng-container class="text-center" *ngIf="buttonvalue[i]">
+            <button class="btn btn-primary mr-2" (click)="sendnomineedetails(i)">View</button>
+            <button class="btn btn-danger" (click)="ondelete(i)">Delete</button>
+          </ng-container>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="col-md-12 text-center" *ngIf="nomineelength===0">
+    <div class="breadcrumb">
+    <h4 >No Nominations</h4>
+  </div>
+  </div>
+  <div class="contaciner">
+  <pagination-controls class="text-center center-block" (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

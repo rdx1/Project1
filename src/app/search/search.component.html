@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"><img src="../../assets/128px-SAP-Logo.svg.png" width="62.5px" height="32" /></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()"
+                style="cursor:pointer;">Logout</a>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h3 class="mb-3 mt-3">Search Nominations</h3>
+    <input type="text" class="form-control" id="seacrchtext" aria-describedby="emailHelp" placeholder="Search"
+        name="searchtext" (keyup.enter)="focusableSubmit.click()" [(ngModel)]="searchterm.searchtext">
+    <div class="container mt-3 text-center">
+        <button name="search" #focusableSubmit id="search" class="btn btn-primary text-center"
+            (click)="searchitem()">Search</button>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-md-12" *ngIf="searchlength>0">
+        <div class="breadcrumb" id="v-pills-tab" role="tablist" aria-orientation="vertical"
+            *ngFor="let nominee of searchdetails;index as i">
+            <button class="btn btn-primary-outline" (click)="getsearchdetails(i)" role="tab"
+                aria-controls="v-pills-home" aria-selected="true"
+                style="word-spacing: 600px; border: none; outline: none !important; box-shadow: none;">
+                {{nominee.transactionid}} {{nominee.customername}} &nbsp;
+                <div class="mt-2">
+                    <ng-container *ngIf="buttonvalue[i]">
+                        <button class="btn btn-primary mr-3" (click)="sendsearchdetails(i)"
+                            style="outline: none;border: none;">View</button>
+                        <button class="btn btn-danger" (click)="ondelete(i)">Delete</button>
+                    </ng-container>
+                </div>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="searchlength===0">
+        <div class="breadcrumb">
+            <h4>No Results Found!</h4>
+        </div>
+    </div>
+</div>

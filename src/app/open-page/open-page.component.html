@@ -1,0 +1,90 @@
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"><img
+        src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+        height="32" /></a>
+    <div class=" navbar-nav ml-auto" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto pr-3" *ngIf="adminstatus===1">
+        <a class="nav-link" routerLinkActive="active" (click)="register()" style="cursor: pointer;">Add User</a>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+      </ul>
+    </div>
+  </nav>
+  <div class="container mb-4 mt-4">
+    <div class="row">
+      <div class="col-md-8" >
+        <h2>{{name}}'s Home</h2>
+      </div>
+    </div>
+  </div>
+  <div class="container" align="center">
+    <div class="row">
+      <div class="col-md-6">
+        <a href="./home/nomination" style="color: inherit; text-decoration: none;">
+          <div class="card" 
+            style="width:13rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <img class="card-img-top" src="../../assets/business-partnership.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>Nomination</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="./home/search" style="color:inherit; text-decoration: none; ">
+          <div class="card"
+            style="width: 12rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <img class="card-img-top" src="../../assets/cloud-computing.png" alt="Card image cap">
+            <div class="card-body">
+              <h3 class="card-text">Search</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5" align="center">
+    <div class="row">
+      <div class="col-md-6">
+        <a href="./home/leads" style="color: inherit; text-decoration: none;">
+          <div class="card"
+            style="width:12rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <img class="card-img-top" src="../../assets/lead.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>Leads</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="./home/successmeasure" style="color:inherit; text-decoration: none; ">
+          <div class="card"
+            style="width: 14rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <img class="card-img-top" src="../../assets/flowchart.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>Measurement</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5" align="center">
+    <div class="row">
+      <div class="col-md-6">
+        <a href="./home/reports" style="color: inherit; text-decoration: none;">
+          <div class="card"
+            style="width:12rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <img class="card-img-top" src="../../assets/diagram.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>Reports</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+

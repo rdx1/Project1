@@ -1,0 +1,332 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><img
+      src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+      height="32" /></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h3 class="pt-3"> New Customer Success</h3>
+    </div>
+    <div class="col-6 pt-3">
+      <div class="btn-group pull-right" *ngIf="successdetails.status===0">
+        <button type="button" class="btn btn-success btn-small" (click)="postdetails()">Add</button>
+        <button type="button" class="btn btn-danger btn-small" (click)="onCancel()">Cancel</button>
+      </div>
+      <div class="btn-group pull-right" *ngIf="successdetails.status===1">
+        <button type="button" class="btn btn-success btn-small" (click)="editdetails()">Save</button>
+        <button type="button" class="btn btn-danger btn-small" (click)="deleteDetails()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<form #userForm="ngForm">
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Customer ID</h6>
+      </div>
+      <div class="col-6">
+        <h6>Phone Number</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" name="customerid" [(ngModel)]="successdetails.customerid" readonly>
+      </div>
+      <div class="col-6">
+        <input class="form-control" #phonenumber="ngModel"
+          [class.is-invalid]="phonenumber.invalid && phonenumber.touched" type="tel" placeholder="Phone Number"
+          name="phonenumber" [(ngModel)]="successdetails.phonenumber" required readonly>
+      </div>
+    </div>
+  </div>>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Customer Name</h6>
+      </div>
+      <div class="col-6">
+        <h6>Address</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <div class="input-group">
+          <input class="form-control" autocomplete="new-password" #name="ngModel"
+            [class.is-invalid]="name.invalid && name.touched" type="text" placeholder="Customer Name"
+            name="customername" [(ngModel)]="successdetails.customername" [typeahead]="customers"
+            typeaheadOptionField="customername" (typeaheadOnSelect)="addcustomerdetails($event)" required
+            [disabled]="showauto===1">
+          <div class="input-group-append">
+            <button class="input-group-text" id="basic-addon2" (click)="removecustomer()"
+              style="border:none; outline: none!important;">Remove</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <textarea class="form-control" placeholder="Address" rows="5" name="address" [(ngModel)]=successdetails.address
+          readonly></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Email</h6>
+      </div>
+      <div class="col-6">
+        <h6>Industry</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" type="email" placeholder="E-mail" name="email" [(ngModel)]="successdetails.email"
+          readonly>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" name="industry" [(ngModel)]="successdetails.industry" readonly>
+      </div>
+    </div>
+  </div>
+</form>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h5 class="pt-3">Contact Details</h5>
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Contact ID</h6>
+    </div>
+    <div class="col-6">
+      <h6>Contact Phone Number</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control" type="text" placeholder="Contact ID" name="contactid"
+        [(ngModel)]="successdetails.contactid" readonly>
+    </div>
+    <div class="col-6">
+      <input class="form-control" placeholder="Phone Number" name="contactphonenumber"
+        [(ngModel)]="successdetails.contactphonenumber" readonly>
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Contact Name</h6>
+    </div>
+    <div class="col-6">
+      <h6>Contact Address</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="input-group">
+        <input class="form-control" type="text" autocomplete="new-password" placeholder="Contact Name"
+          name="contactname" [(ngModel)]="successdetails.contactname" [typeahead]="contacts"
+          typeaheadOptionField="contactname" (typeaheadOnSelect)="addcontactdetails($event)" required
+          [disabled]="showcontact===1">
+        <div class="input-group-append">
+          <button class="input-group-text" id="basic-addon2" (click)="removecontact()"
+            style="border:none; outline: none!important;">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <textarea class="form-control" placeholder="Address" rows="5" name="contactaddress"
+        [(ngModel)]="successdetails.contactaddress" readonly></textarea>
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Job Function</h6>
+    </div>
+    <div class="col-6">
+      <h6>Relationship To Customer</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control" name="jobfunction" [(ngModel)]="successdetails.jobfunction" readonly>
+    </div>
+    <div class="col-6">
+      <input class="form-control" name="customerrelationship" [(ngModel)]="successdetails.customerrelationship"
+        readonly>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h5 class="pt-3">Transaction Details</h5>
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6> Nomination ID</h6>
+    </div>
+    <div class="col-6">
+      <h6>Created By</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="input-group">
+        <input class="form-control" type="text" placeholder="Nomination ID" name="transactionid"
+          autocomplete="new-password" [(ngModel)]="successdetails.transactionid" [typeahead]="nominees"
+          typeaheadOptionField="transactionid" (typeaheadOnSelect)="addnomineedetails($event)" required
+          [disabled]="shownom===1">
+        <div class="input-group-append">
+          <button class="input-group-text" id="basic-addon2" (click)="removenominee()"
+            style="border:none; outline: none!important;">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <input class="form-control" placeholder="Created By" name="createdby" [(ngModel)]="successdetails.createdby"
+        readonly>
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Created On</h6>
+    </div>
+    <div class="col-6">
+      <h6>Description</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-2">
+      <input class="form-control" type="text" placeholder="Day" name="day" [(ngModel)]="successdetails.day" readonly>
+    </div>
+    <div class="col-2">
+      <input class="form-control" type="text" placeholder="Month" name="month" [(ngModel)]="successdetails.month"
+        readonly>
+    </div>
+    <div class="col-2">
+      <input class="form-control" type="text" placeholder="Year" name="year" [(ngModel)]="successdetails.year" readonly>
+    </div>
+    <div class="col-6">
+      <textarea class="form-control" placeholder="Description" rows="5" name="description"
+        [(ngModel)]="successdetails.description" readonly></textarea>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="showstatus">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control" type="text" name="status" value="{{successdetails.status}}">
+    </div>
+  </div>
+</div>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-6">
+      <h6>Measurement ID</h6>
+    </div>
+    <div class="col-6">
+      <h6>Legacy ID</h6>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input readonly class="form-control" type="text" name="measurementid" placeholder="Measurement ID" value="{{successdetails.measurementid}}">
+    </div>
+    <div class="col-6">
+      <input class="form-control" #phonenumber="ngModel" type="text" placeholder="Legacy ID" name="legacyid"
+        [(ngModel)]="successdetails.legacyid" required>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h5 class="pt-3">Create Assets</h5>
+      </div>
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col-6">
+            <h6>Add Files</h6>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-6">
+                <div class="custom-file">
+                  <input type="file" id="validatedCustomFile" name="fileupload" multiple ng2FileSelect
+                    [uploader]="uploader">
+                </div>
+                <div class="row uploadList mt-3" *ngFor="let item of uploader.queue">
+                  <div class="col-4">{{item.file.name}}</div>
+                  <div class="col-4">
+                    <div class="progress">
+                      <div class="progress-bar bg-success" [ngStyle]="{'width':item.progress+'%'}"></div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                      <button type="button" class="btn  btn-primary" (click)="item.upload()">Upload</button>
+                      <button type="button" class="btn btn-danger" (click)="item.remove()">Remove</button>
+                    </div>
+                  </div>
+                  <div class="col-4" >
+                    
+                  </div>
+                  <div class="col-4" *ngIf="showdownloads">
+                    <input class="form-control" type="text" placeholder="CustomerID" name="filepath"
+                      [(ngModel)]="successdetails.nomineezip">
+                  </div>
+                </div>
+                <div class="row mt-5" *ngFor="let item of attachmentList; let i = index">
+                  <div class="col-7">{{item.originalname}}</div>
+                  <div class="col-5 pl-5">
+                      <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-sm btn-primary"
+                      (click)="download(i)">Download</button>
+                      <button type="button" class="btn btn-danger" (click)="item.remove()">Delete</button>
+                      </div>
+                </div>
+              </div>

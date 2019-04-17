@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+#toast-container > div {
+    opacity:1;
+}
+body{
+    height:100vh;
+    background-color: #F5F6F9 !important;
+}
+body{
+    font-family: "Google Sans";
+    src: url(../src/assets/GoogleSans-Medium.ttf)
+}

@@ -1,0 +1,130 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><img
+      src="../../assets/128px-SAP-Logo.svg.png" width="62.5"
+      height="32" /></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="[ '/home' ]">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" routerLinkActive="active" (click)="authservice.logout()" style="cursor: pointer;">Logout</a>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h3 class="pt-3">New Contact</h3>
+    </div>
+    <div class="col-6 pt-3">
+      <div class="btn-group pull-right" *ngIf="contactdetails.status===0">
+        <button type="button" class="btn btn-success btn-small" (click)="postdetails()">Add</button>
+        <button type="button" class="btn btn-danger btn-small" (click)="oncancel()">Cancel</button>
+      </div>
+      <div class="btn-group pull-right" *ngIf="contactdetails.status===1">
+        <button type="button" class="btn btn-success btn-small" (click)="postdetails()">Save</button>
+        <button type="button" class="btn btn-danger btn-small" (click)="deletecontact()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Contact ID</h6>
+      </div>
+      <div class="col-6">
+        <h6>Contact Phone Number</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" type="text" placeholder="Contact ID" name="contactid"
+          value="{{ contactdetails.contactid}}" readonly>
+      </div>
+      <div class="col-6">
+        <input class="form-control" placeholder="Phone Number" name="contactphonenumber"
+          [(ngModel)]="contactdetails.contactphonenumber">
+      </div>
+    </div>
+  </div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Contact Name</h6>
+      </div>
+      <div class="col-6">
+        <h6>Contact Address</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <input class="form-control" type="text" placeholder="Contact Name" name="contactname"
+          [(ngModel)]="contactdetails.contactname" >
+      </div>
+      <div class="col-6">
+        <textarea class="form-control" placeholder="Address" rows="5" name="contactaddress"
+          [(ngModel)]="contactdetails.contactaddress"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h6>Job Function</h6>
+      </div>
+      <div class="col-6">
+        <h6>Relationship To Customer</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <select class="form-control"  name="jobfunction" (click)="addmodal2(template)"[(ngModel)]="contactdetails.jobfunction" >
+          <!-- Modal -->
+          <ng-template #template>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Add Job Function</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Job Function:</label>
+                  <input type="text" class="form-control" name="jobfunction" [(ngModel)]="newjobfunction.jobfunction">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+              <button type="button" class="btn btn-primary" (click)="addJobFunction();modalRef.hide()">Add</button>
+            </div>
+          </ng-template>
+          <option *ngFor="let jobfunction of jobfunctions" value="{{jobfunction.jobfunction}}">{{jobfunction.jobfunction}}</option>
+          <option value="addnew"> Add Job Function</option>
+        </select>
+      </div>
+        <div class="col-6">
+          <input class="form-control" type="text" name="customerrelationship" placeholder="Relationship To Customer" [(ngModel)]="contactdetails.customerrelationship">
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="showstatus">
+        <div class="row">
+          <div class="col-6">
+            <input readonly class="form-control" type="text" name="status" value="{{contactdetails.status}}">
+          </div>
+        </div>
+      </div>
+<hr>
